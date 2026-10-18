@@ -3,6 +3,12 @@
     <PropertyGroup>
         <OutputType>Library</OutputType>
         <TargetFramework>net10.0</TargetFramework>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageId>RcodePlay.3DKalman</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>RcodePlay</Authors>
+        <Company>Personal</Company>
+        <RepositoryUrl>https://github.com/RcodePlay/3DKalman</RepositoryUrl>
         <RootNamespace>_3DKalman</RootNamespace>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
