@@ -1,0 +1,1 @@
+A simple C# library providing a Kalman filter for 3D space position prediction, made specifically for a CanSat project. Should work with anything else. I will keep adding features that I'll need throughout the CanSat project.
