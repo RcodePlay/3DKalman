@@ -106,4 +106,10 @@ public class Kalman3D
         }
         return result;
     }
+
+    /// <summary>Gets the current estimated 3D position [px, py, pz].</summary>
+    public Vector<double> CurrentPosition => V.Dense([X[0], X[1], X[2]]);
+
+    /// <summary>Gets the full current state vector [px, py, pz, vx, vy, vz].</summary>
+    public Vector<double> CurrentState => X.Clone();
 }
