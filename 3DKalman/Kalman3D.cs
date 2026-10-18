@@ -2,6 +2,9 @@
 
 namespace _3DKalman;
 
+/// <summary>
+/// Kalman filter for 3D position prediction.
+/// </summary>
 public class Kalman3D
 {
     private static readonly MatrixBuilder<double> M = Matrix<double>.Build;
@@ -15,6 +18,12 @@ public class Kalman3D
     private Vector<double> X { get; set; }   // [px,py,pz,vx,vy,vz]
     private Matrix<double> FilterUncertainty { get; set; }
 
+    /// <summary>
+    /// Initializes the Kalman filter.
+    /// </summary>
+    /// <param name="measStd">Measurement standard deviation.</param>
+    /// <param name="accelStd">Acceleration standard deviation.</param>
+    /// <param name="initialPos">Initial position.</param>
     public Kalman3D(double measStd, double accelStd, Vector<double> initialPos)
     {
         _accelVar = accelStd * accelStd;
@@ -52,7 +61,11 @@ public class Kalman3D
         return modelNoise;
     }
 
-    /// <summary>Advance the state by dt. Optional known acceleration (e.g., gravity).</summary>
+    /// <summary>
+    /// Advance the state by dt.
+    /// </summary>
+    /// <param name="dt">Time step.</param>
+    /// <param name="knownAccel">Optional known acceleration (e.g., gravity).</param>
     public void Predict(double dt, Vector<double>? knownAccel = null)
     {
         var motionModel = BuildMotionModel(dt);
@@ -70,7 +83,10 @@ public class Kalman3D
         FilterUncertainty = motionModel * FilterUncertainty * motionModel.Transpose() + BuildModelNoise(dt);
     }
 
-    /// <summary>Correct with a measured 3D position.</summary>
+    /// <summary>
+    /// Correct the filter with a measured 3D position.
+    /// </summary>
+    /// <param name="z">Measured 3D position.</param>
     public void Update(Vector<double> z)
     {
         var innovation = z - _measurementModel * X;
@@ -84,7 +100,13 @@ public class Kalman3D
         FilterUncertainty = ikh * FilterUncertainty * ikh.Transpose() + kalmanGain * _sensorNoise * kalmanGain.Transpose();
     }
 
-    /// <summary>Predict future positions without touching the filter state.</summary>
+    /// <summary>
+    /// Predict future positions without touching the filter state.
+    /// </summary>
+    /// <param name="steps">Number of steps to forecast.</param>
+    /// <param name="dt">Time step.</param>
+    /// <param name="knownAccel">Optional known acceleration (e.g., gravity).</param>
+    /// <returns>Forecasted positions.</returns>
     public Vector<double>[] Forecast(int steps, double dt, Vector<double>? knownAccel = null)
     {
         var motionModel = BuildMotionModel(dt);
@@ -107,9 +129,15 @@ public class Kalman3D
         return result;
     }
 
-    /// <summary>Gets the current estimated 3D position [px, py, pz].</summary>
+    /// <summary>
+    /// Returns the current estimated 3D position.
+    /// </summary>
+    /// <returns>Current estimated 3D position [px, py, pz].</returns>
     public Vector<double> CurrentPosition => V.Dense([X[0], X[1], X[2]]);
 
-    /// <summary>Gets the full current state vector [px, py, pz, vx, vy, vz].</summary>
+    /// <summary>
+    /// Returns the full current state vector.
+    /// </summary>
+    /// <returns>Full current state vector [px, py, pz, vx, vy, vz].</returns>
     public Vector<double> CurrentState => X.Clone();
 }
