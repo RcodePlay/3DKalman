@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
+      id-token: write
 
     steps:
       - name: Checkout code
@@ -27,11 +27,11 @@ jobs:
         run: |
           TAG="${{ github.event.release.tag_name }}"
           VERSION="${TAG#v}"
-          dotnet pack --configuration Release --no-restore /p:PackageVersion=$VERSION
+          dotnet pack --configuration Release --no-restore /p:PackageVersion=$VERSION --output ./nupkgs
 
-      - name: Push to GitHub Packages
+      - name: Push to NuGet.org
         run: |
-          dotnet nuget push "3DKalman/bin/Release/*.nupkg" \
-            --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+          dotnet nuget push "./nupkgs/*.nupkg" \
+            --source "https://api.nuget.org/v3/index.json" \
             --api-key ${{ secrets.GITHUB_TOKEN }} \
             --skip-duplicate

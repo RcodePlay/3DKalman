@@ -8,10 +8,18 @@
         <Authors>RcodePlay</Authors>
         <Company>Personal</Company>
         <RepositoryUrl>https://github.com/RcodePlay/3DKalman</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
         <RootNamespace>_3DKalman</RootNamespace>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+        <!-- NuGet Metadata -->
+        <Description>3D Position prediction library using Kalman filter</Description>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/RcodePlay/3DKalman</PackageProjectUrl>
+        <PackageTags>csharp; library; utility</PackageTags>
+
     </PropertyGroup>
 
     <ItemGroup>
